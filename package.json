@@ -1,0 +1,23 @@
+{
+  "name": "webrtc",
+  "version": "1.0.0",
+  "description": "* 最近一直在弄ros小车，希望实现在4、5G网络下远端控制功能，同时传输音视频，抖音上其实有不少类似的项目了，不过不自己弄一下永远不理解其中的奥秘。在此希望能帮助小白轻松上手，也为自己做下技术储备。",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yulong88888/webrtc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yulong88888/webrtc/issues"
+  },
+  "homepage": "https://github.com/yulong88888/webrtc#readme",
+  "dependencies": {
+    "ws": "^8.4.0"
+  }
+}
