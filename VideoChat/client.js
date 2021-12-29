@@ -3,44 +3,53 @@ var name;
 var connectedUser;
 
 //connecting to our signaling server
-var conn = new WebSocket("ws://localhost:9090");
+var conn = null;
 
-conn.onopen = function () {
-    console.log("Connected to the signaling server");
-};
+window.onload = function () {
+    init()
+}
 
-//when we got a message from a signaling server 
-conn.onmessage = function (msg) {
-    console.log("Got message", msg.data);
+function init() {
+    conn = new WebSocket("ws://localhost:9090")
 
-    var data = JSON.parse(msg.data);
+    conn.onopen = function () {
+        console.log("Connected to the signaling server");
+    };
 
-    switch (data.type) {
-        case "login":
-            handleLogin(data.success);
-            break;
-        //when somebody wants to call us 
-        case "offer":
-            handleOffer(data.offer, data.name);
-            break;
-        case "answer":
-            handleAnswer(data.answer);
-            break;
-        //when a remote peer sends an ice candidate to us 
-        case "candidate":
-            handleCandidate(data.candidate);
-            break;
-        case "leave":
-            handleLeave();
-            break;
-        default:
-            break;
-    }
-};
+    //when we got a message from a signaling server 
+    conn.onmessage = function (msg) {
+        console.log("Got message", msg.data);
 
-conn.onerror = function (err) {
-    console.log("Got error", err);
-};
+        var data = JSON.parse(msg.data);
+
+        switch (data.type) {
+            case "login":
+                handleLogin(data.success);
+                break;
+            //when somebody wants to call us 
+            case "offer":
+                handleOffer(data.offer, data.name);
+                break;
+            case "answer":
+                handleAnswer(data.answer);
+                break;
+            //when a remote peer sends an ice candidate to us 
+            case "candidate":
+                handleCandidate(data.candidate);
+                break;
+            case "leave":
+                console.log(data)
+                // handleLeave();
+                break;
+            default:
+                break;
+        }
+    };
+
+    conn.onerror = function (err) {
+        console.log("Got error", err);
+    };
+}
 
 //alias for sending JSON encoded messages 
 function send(message) {
@@ -99,11 +108,15 @@ function handleLogin(success) {
         //********************** 
 
         //getting local video stream 
-        navigator.webkitGetUserMedia({ video: true, audio: true }, function (myStream) {
+        navigator.webkitGetUserMedia({ video: true, audio: false }, function (myStream) {
             stream = myStream;
 
             //displaying local video stream on the page 
-            localVideo.src = window.URL.createObjectURL(stream);
+            try {
+                localVideo.src = window.URL.createObjectURL(stream);
+            } catch (error) {
+                localVideo.srcObject = stream;
+            }
 
             //using Google public stun server 
             var configuration = {
@@ -117,7 +130,11 @@ function handleLogin(success) {
 
             //when a remote user adds stream to the peer connection, we display it 
             yourConn.onaddstream = function (e) {
-                remoteVideo.src = window.URL.createObjectURL(e.stream);
+                try {
+                    remoteVideo.src = window.URL.createObjectURL(e.stream);
+                } catch (error) {
+                    remoteVideo.srcObject = e.stream;
+                }
             };
 
             // Setup ice handling 
@@ -154,6 +171,7 @@ callBtn.addEventListener("click", function () {
 
             yourConn.setLocalDescription(offer);
         }, function (error) {
+            console.error(error)
             alert("Error when creating an offer");
         });
 
@@ -206,4 +224,10 @@ function handleLeave() {
     yourConn.close();
     yourConn.onicecandidate = null;
     yourConn.onaddstream = null;
+
+    conn.close();
+    init();
+
+    loginPage.style.display = "block";
+    callPage.style.display = "none";
 };

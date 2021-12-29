@@ -101,7 +101,7 @@ wss.on("connection", function (connection) {
             case "leave":
                 console.log("Disconnecting from", data.name);
                 var conn = users[data.name];
-                conn.otherName = null;
+                // conn.otherName = null;
 
                 //notify the other user so he can disconnect his peer connection 
                 if (conn != null) {
@@ -132,7 +132,7 @@ wss.on("connection", function (connection) {
             if (connection.otherName) {
                 console.log("Disconnecting from ", connection.otherName);
                 var conn = users[connection.otherName];
-                conn.otherName = null;
+                // conn.otherName = null;
 
                 if (conn != null) {
                     sendTo(conn, {
