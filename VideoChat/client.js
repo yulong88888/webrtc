@@ -11,6 +11,7 @@ window.onload = function () {
 
 function init() {
     conn = new WebSocket("ws://localhost:9090")
+    // conn = new WebSocket(`ws://${window.location.hostname}:9090`)
 
     conn.onopen = function () {
         console.log("Connected to the signaling server");
@@ -76,6 +77,8 @@ var callBtn = document.querySelector("#callBtn");
 var hangUpBtn = document.querySelector("#hangUpBtn");
 
 var localVideo = document.querySelector("#localVideo");
+// 关闭声音
+localVideo.volume = 0
 var remoteVideo = document.querySelector("#remoteVideo");
 
 var yourConn;
@@ -108,7 +111,7 @@ function handleLogin(success) {
         //********************** 
 
         //getting local video stream 
-        navigator.webkitGetUserMedia({ video: true, audio: false }, function (myStream) {
+        navigator.webkitGetUserMedia({ video: true, audio: true }, function (myStream) {
             stream = myStream;
 
             //displaying local video stream on the page 
