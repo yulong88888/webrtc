@@ -21,9 +21,18 @@ sudo docker run -d --restart=always --network=host coturn/coturn
 * vscode采用“Live Server”插件，用于启动文件夹内的网页
 * 使用node环境，运行“server.js”信令服务器，使用命令如下
 ```shell
-# 因为没有package.json所以node_module会安装到用户目录下
-npm install ws
+# 安装ws库
+npm install
 
 # 运行，注意路径匹配
 node server.js
+```
+
+## VideoChat案例
+```shell
+# 进入VideoChat目录
+cd VideoChat
+
+# 安装ui库
+npm install
 ```
