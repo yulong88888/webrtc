@@ -36,3 +36,12 @@ cd VideoChat
 # 安装ui库
 npm install
 ```
+
+## 没有证书时
+> 没有证书会出现ws无法连接，摄像头、麦克风无法获取等问题
+* chrome打开[chrome://flags/#unsafely-treat-insecure-origin-as-secure
+](chrome://flags/#unsafely-treat-insecure-origin-as-secure)
+* 在‘Treat given (insecure) origins as secure origins...’下的输入框添加你的白名单ip（例如：http://192.168.31.88:5500）
+* 将后面的按钮改为**Enable**状态
+* 点击下方出现的**Relaunch**重启浏览器
+
