@@ -15,6 +15,8 @@ docker pull coturn/coturn
 # 5349/tcp 5349/udp
 # 49152-65535/tcp 49152-65535/udp
 sudo docker run -d --restart=always --network=host coturn/coturn
+
+sudo docker run -d --restart=always --network=host -v /home/ubuntu/guyulong/webrtc/coturn/my.conf:/etc/coturn/turnserver.conf --name webrtc coturn/coturn
 ```
 
 ## 程序运行

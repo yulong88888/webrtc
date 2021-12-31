@@ -123,7 +123,13 @@ function handleLogin(success) {
 
             //using Google public stun server 
             var configuration = {
-                "iceServers": [{ "url": "stun:82.156.29.177:3478" }]
+                "iceServers": [{
+                    urls: "stun:82.156.29.177:3478"
+                }, {
+                    urls: "turn:82.156.29.177:3478",
+                    username: "lengmang.net",
+                    credential: "lengmang.net"
+                }]
             };
 
             yourConn = new webkitRTCPeerConnection(configuration);
